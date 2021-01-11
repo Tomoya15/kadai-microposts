@@ -13,7 +13,12 @@
                     <div>
                         {{-- 投稿内容 --}}
                         <p class="mb-0">{!! nl2br(e($micropost->content)) !!}</p>
+                   
                     </div>
+                        
+                    
+                        <p>@include('user_favorite.favorite_button')</p>
+                    
                 </div>
             </li>
         @endforeach
