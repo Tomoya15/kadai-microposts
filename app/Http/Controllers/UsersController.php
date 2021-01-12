@@ -21,7 +21,6 @@ class UsersController extends Controller
     public function show($id)
     {
             $data = [];
-        if (\Auth::check()) {
             // 認証済みユーザ（閲覧者）を取得
             $user = \Auth::user();
             
@@ -39,7 +38,7 @@ class UsersController extends Controller
             ];
             // Welcomeビューでそれらを表示
         return view('users.show', $data);
-        }}
+        }
 
         
         

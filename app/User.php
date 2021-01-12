@@ -147,32 +147,30 @@ class User extends Authenticatable
         return $this->belongsToMany(Micropost::class, 'favorites', 'user_id', 'micropost_id')->withTimestamps();
         
     }
-    public function favorite($userId)
+    public function favorite($micropostId)
     {
         // すでにフォローしているかの確認
-        $exist = $this->is_favoite($userId);
-        // 対象が自分自身かどうかの確認
-        $its_me = $this->id == $userId;
+        $exist = $this->is_favoite($micropostId);
+        
 
-        if ($exist || $its_me) {
+        if ($exist) {
             // すでにフォローしていれば何もしない
             return false;
         } else {
             // 未フォローであればフォローする
-            $this->favorites()->attach($userId);
+            $this->favorites()->attach($micropostId);
             return true;
         }
     }
-    public function unfavorite($userId)
+    public function unfavorite($micropostId)
     {
         // すでにフォローしているかの確認
-        $exist = $this->is_favoite($userId);
-        // 対象が自分自身かどうかの確認
-        $its_me = $this->id == $userId;
+        $exist = $this->is_favoite($micropostId);
+        
 
-        if ($exist && !$its_me) {
+        if ($exist) {
             // すでにフォローしていればフォローを外す
-            $this->favorites()->detach($userId);
+            $this->favorites()->detach($micropostId);
             return true;
         } else {
             // 未フォローであれば何もしない
@@ -180,10 +178,10 @@ class User extends Authenticatable
         }
     }
     
-    public function is_favoite($userId)
+    public function is_favoite($micropostId)
     {
         // フォロー中ユーザの中に $userIdのものが存在するか
-        return $this->favorites()->where('micropost_id', $userId)->exists();
+        return $this->favorites()->where('micropost_id', $micropostId)->exists();
     }
     
 }
